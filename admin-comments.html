@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Kelola Komentar</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/css/all.min.css" rel="stylesheet">
+    <style>
+        .stats-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+        }
+        .comment-card {
+            border-left: 4px solid #007bff;
+            transition: all 0.3s ease;
+        }
+        .comment-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .presence-hadir {
+            background-color: #d1edff;
+            color: #0d6efd;
+            border: 1px solid #b3d9ff;
+        }
+        .presence-berhalangan {
+            background-color: #f8d7da;
+            color: #dc3545;
+            border: 1px solid #f1aeb5;
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 col-lg-2 px-0 bg-dark">
+                <div class="d-flex flex-column min-vh-100">
+                    <div class="p-3 text-white">
+                        <h5 class="mb-0">
+                            <i class="fas fa-heart me-2"></i>
+                            Admin Panel
+                        </h5>
+                    </div>
+                    <nav class="nav flex-column px-3">
+                        <a class="nav-link text-white active" href="#dashboard">
+                            <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+                        </a>
+                        <a class="nav-link text-white" href="#comments">
+                            <i class="fas fa-comments me-2"></i>Komentar
+                        </a>
+                        <a class="nav-link text-white" href="#" onclick="exportData()">
+                            <i class="fas fa-download me-2"></i>Export Data
+                        </a>
+                        <a class="nav-link text-white" href="../index.html" target="_blank">
+                            <i class="fas fa-external-link-alt me-2"></i>Lihat Undangan
+                        </a>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-md-9 col-lg-10">
+                <div class="p-4">
+                    <!-- Header -->
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h2>Dashboard Komentar Undangan</h2>
+                        <button class="btn btn-outline-primary" onclick="refreshData()">
+                            <i class="fas fa-sync-alt me-2"></i>Refresh
+                        </button>
+                    </div>
+
+                    <!-- Statistics Cards -->
+                    <div class="row mb-4" id="stats-container">
+                        <!-- Stats will be loaded here -->
+                    </div>
+
+                    <!-- Comments Management -->
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">
+                                <i class="fas fa-comments me-2"></i>
+                                Kelola Komentar
+                            </h5>
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-outline-primary btn-sm active" data-filter="all">
+                                    Semua
+                                </button>
+                                <button type="button" class="btn btn-outline-success btn-sm" data-filter="1">
+                                    Hadir
+                                </button>
+                                <button type="button" class="btn btn-outline-danger btn-sm" data-filter="2">
+                                    Berhalangan
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <!-- Search -->
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <div class="input-group">
+                                        <span class="input-group-text">
+                                            <i class="fas fa-search"></i>
+                                        </span>
+                                        <input type="text" class="form-control" id="searchInput" placeholder="Cari nama atau komentar...">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <select class="form-select" id="sortSelect">
+                                        <option value="newest">Terbaru</option>
+                                        <option value="oldest">Terlama</option>
+                                        <option value="likes">Paling Disukai</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Comments List -->
+                            <div id="comments-list">
+                                <!-- Comments will be loaded here -->
+                            </div>
+
+                            <!-- Pagination -->
+                            <nav class="mt-4">
+                                <ul class="pagination justify-content-center" id="pagination">
+                                    <!-- Pagination will be generated here -->
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Konfirmasi Hapus</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Apakah Anda yakin ingin menghapus komentar ini?</p>
+                    <div class="alert alert-warning">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        Tindakan ini tidak dapat dibatalkan!
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-danger" id="confirmDelete">Hapus</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/comments-api.js"></script>
+    <script>
+        class AdminDashboard {
+            constructor() {
+                this.api = new CommentsAPI();
+                this.currentPage = 1;
+                this.itemsPerPage = 10;
+                this.currentFilter = 'all';
+                this.currentSort = 'newest';
+                this.searchQuery = '';
+                this.init();
+            }
+
+            init() {
+                this.loadStats();
+                this.loadComments();
+                this.setupEventListeners();
+            }
+
+            setupEventListeners() {
+                // Filter buttons
+                document.querySelectorAll('[data-filter]').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        document.querySelectorAll('[data-filter]').forEach(b => b.classList.remove('active'));
+                        e.target.classList.add('active');
+                        this.currentFilter = e.target.dataset.filter;
+                        this.currentPage = 1;
+                        this.loadComments();
+                    });
+                });
+
+                // Search input
+                document.getElementById('searchInput').addEventListener('input', (e) => {
+                    this.searchQuery = e.target.value;
+                    this.currentPage = 1;
+                    this.loadComments();
+                });
+
+                // Sort select
+                document.getElementById('sortSelect').addEventListener('change', (e) => {
+                    this.currentSort = e.target.value;
+                    this.loadComments();
+                });
+
+                // Delete confirmation
+                document.getElementById('confirmDelete').addEventListener('click', () => {
+                    if (this.commentToDelete) {
+                        this.deleteComment(this.commentToDelete);
+                        bootstrap.Modal.getInstance(document.getElementById('deleteModal')).hide();
+                    }
+                });
+            }
+
+            loadStats() {
+                const stats = this.api.getStats();
+                const statsContainer = document.getElementById('stats-container');
+                
+                statsContainer.innerHTML = `
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card stats-card h-100">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-grow-1">
+                                        <h2 class="mb-0">${stats.total}</h2>
+                                        <p class="mb-0">Total Komentar</p>
+                                    </div>
+                                    <div class="flex-shrink-0">
+                                        <i class="fas fa-comments fa-2x opacity-50"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card bg-success text-white h-100">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-grow-1">
+                                        <h2 class="mb-0">${stats.hadir}</h2>
+                                        <p class="mb-0">Konfirmasi Hadir</p>
+                                    </div>
+                                    <div class="flex-shrink-0">
+                                        <i class="fas fa-check-circle fa-2x opacity-50"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card bg-danger text-white h-100">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-grow-1">
+                                        <h2 class="mb-0">${stats.berhalangan}</h2>
+                                        <p class="mb-0">Berhalangan Hadir</p>
+                                    </div>
+                                    <div class="flex-shrink-0">
+                                        <i class="fas fa-times-circle fa-2x opacity-50"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card bg-warning text-white h-100">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-grow-1">
+                                        <h2 class="mb-0">${stats.totalLikes}</h2>
+                                        <p class="mb-0">Total Like</p>
+                                    </div>
+                                    <div class="flex-shrink-0">
+                                        <i class="fas fa-heart fa-2x opacity-50"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            loadComments() {
+                let commentsData;
+                
+                if (this.searchQuery) {
+                    commentsData = this.api.searchComments(this.searchQuery, this.currentPage, this.itemsPerPage);
+                } else if (this.currentFilter !== 'all') {
+                    commentsData = this.api.getCommentsByPresence(this.currentFilter, this.currentPage, this.itemsPerPage);
+                } else {
+                    commentsData = this.api.getComments(this.currentPage, this.itemsPerPage);
+                }
+
+                this.sortComments(commentsData.comments);
+                this.renderComments(commentsData);
+                this.renderPagination(commentsData);
+            }
+
+            sortComments(comments) {
+                switch (this.currentSort) {
+                    case 'oldest':
+                        comments.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+                        break;
+                    case 'likes':
+                        comments.sort((a, b) => b.likes - a.likes);
+                        break;
+                    case 'newest':
+                    default:
+                        comments.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+                        break;
+                }
+            }
+
+            renderComments(commentsData) {
+                const container = document.getElementById('comments-list');
+                
+                if (commentsData.comments.length === 0) {
+                    container.innerHTML = `
+                        <div class="text-center py-5">
+                            <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+                            <h5 class="text-muted">Tidak ada komentar ditemukan</h5>
+                        </div>
+                    `;
+                    return;
+                }
+
+                let html = '';
+                commentsData.comments.forEach(comment => {
+                    const presenceClass = comment.presence === 1 ? 'presence-hadir' : 'presence-berhalangan';
+                    const presenceText = comment.presence === 1 ? 'Hadir' : 'Berhalangan';
+                    const presenceIcon = comment.presence === 1 ? 'check-circle' : 'times-circle';
+                    
+                    html += `
+                        <div class="card comment-card mb-3">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div class="flex-grow-1">
+                                        <div class="d-flex align-items-center mb-2">
+                                            <h6 class="mb-0 me-3">${this.escapeHtml(comment.name)}</h6>
+                                            <span class="badge ${presenceClass} me-2">
+                                                <i class="fas fa-${presenceIcon} me-1"></i>
+                                                ${presenceText}
+                                            </span>
+                                            <small class="text-muted">
+                                                <i class="fas fa-clock me-1"></i>
+                                                ${this.formatDate(comment.timestamp)}
+                                            </small>
+                                        </div>
+                                        <p class="mb-2">${this.formatComment(comment.comment)}</p>
+                                        <div class="d-flex align-items-center">
+                                            <span class="text-muted me-3">
+                                                <i class="fas fa-heart text-danger me-1"></i>
+                                                ${comment.likes} likes
+                                            </span>
+                                            <small class="text-muted">ID: ${comment.id}</small>
+                                        </div>
+                                    </div>
+                                    <div class="flex-shrink-0">
+                                        <button class="btn btn-outline-danger btn-sm" onclick="admin.confirmDelete(${comment.id})">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                container.innerHTML = html;
+            }
+
+            renderPagination(commentsData) {
+                const container = document.getElementById('pagination');
+                
+                if (commentsData.totalPages <= 1) {
+                    container.innerHTML = '';
+                    return;
+                }
+
+                let html = '';
+                
+                // Previous
+                if (commentsData.hasPrev) {
+                    html += `<li class="page-item"><a class="page-link" href="#" onclick="admin.goToPage(${this.currentPage - 1})">‹</a></li>`;
+                }
+
+                // Pages
+                for (let i = 1; i <= commentsData.totalPages; i++) {
+                    const active = i === this.currentPage ? 'active' : '';
+                    html += `<li class="page-item ${active}"><a class="page-link" href="#" onclick="admin.goToPage(${i})">${i}</a></li>`;
+                }
+
+                // Next
+                if (commentsData.hasNext) {
+                    html += `<li class="page-item"><a class="page-link" href="#" onclick="admin.goToPage(${this.currentPage + 1})">›</a></li>`;
+                }
+
+                container.innerHTML = html;
+            }
+
+            goToPage(page) {
+                this.currentPage = page;
+                this.loadComments();
+            }
+
+            confirmDelete(commentId) {
+                this.commentToDelete = commentId;
+                const modal = new bootstrap.Modal(document.getElementById('deleteModal'));
+                modal.show();
+            }
+
+            deleteComment(commentId) {
+                const deleted = this.api.deleteComment(commentId);
+                if (deleted) {
+                    this.loadStats();
+                    this.loadComments();
+                    this.showAlert('Komentar berhasil dihapus', 'success');
+                }
+            }
+
+            formatDate(timestamp) {
+                return new Date(timestamp).toLocaleString('id-ID');
+            }
+
+            formatComment(text) {
+                return this.escapeHtml(text)
+                    .replace(/\*([^*]+)\*/g, '<strong>$1</strong>')
+                    .replace(/_([^_]+)_/g, '<em>$1</em>')
+                    .replace(/\n/g, '<br>');
+            }
+
+            escapeHtml(text) {
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
+
+            showAlert(message, type) {
+                const alert = document.createElement('div');
+                alert.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
+                alert.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+                alert.innerHTML = `
+                    ${message}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                `;
+                document.body.appendChild(alert);
+
+                setTimeout(() => {
+                    if (alert.parentNode) {
+                        alert.parentNode.removeChild(alert);
+                    }
+                }, 5000);
+            }
+        }
+
+        // Global functions
+        function refreshData() {
+            admin.loadStats();
+            admin.loadComments();
+        }
+
+        function exportData() {
+            const data = admin.api.exportData();
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `comments-backup-${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        // Initialize admin dashboard
+        const admin = new AdminDashboard();
+    </script>
+</body>
+</html>

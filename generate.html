@@ -1,0 +1,621 @@
+<!doctype html>
+<html lang="id" data-bs-theme="auto">
+
+<head>
+    <!-- Common Tag -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Generate Undangan Tamu - Khitanan Ahmad</title>
+
+    <!-- SEO Tag -->
+    <meta name="author" content="dewanakl">
+    <meta name="language" content="id">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="title" content="Generate Undangan Tamu - Khitanan Ahmad">
+    <meta name="description" content="Generator undangan personal untuk tamu khitanan Ahmad">
+
+    <!-- Appearance -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#000000">
+    <meta name="color-scheme" content="dark light">
+    <link rel="shortcut icon" type="image/x-icon" href="./assets/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="./assets/favicon.ico">
+
+    <!-- Preconnect CDN -->
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+
+    <!-- Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sacramento&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic&display=swap">
+
+    <!-- Dependencies CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" integrity="sha256-zRgmWB5PK4CvTx4FiXsxbHaYRBBjz/rvu97sOC7kzXI=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+    <link rel="stylesheet" href="./css/guest.css">
+
+    <!-- Dependencies JS -->
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha256-NfRUfZNkERrKSFA0c1a8VmCplPDYtpTYj5lQmKe1R/o=" crossorigin="anonymous"></script>
+
+    <style>
+        .guest-item {
+            transition: all 0.3s ease;
+        }
+        .guest-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .copy-btn {
+            transition: all 0.2s ease;
+        }
+        .copy-btn:hover {
+            transform: scale(1.05);
+        }
+        .generated-count {
+            background: linear-gradient(45deg, #007bff, #28a745);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .stats-card {
+            background: linear-gradient(135deg, rgba(0,123,255,0.1), rgba(40,167,69,0.1));
+            border: 1px solid rgba(0,123,255,0.2);
+        }
+    </style>
+</head>
+
+<body class="bg-light-dark">
+    <!-- Header -->
+    <nav class="navbar navbar-expand-lg bg-white-black shadow-sm">
+        <div class="container">
+            <a class="navbar-brand font-esthetic" href="#" style="font-size: 1.5rem;">
+                <i class="fa-solid fa-users me-2"></i>Generate Undangan Tamu
+            </a>
+            <div class="ms-auto">
+                <a href="index.html" class="btn btn-outline-auto btn-sm">
+                    <i class="fa-solid fa-home me-1"></i>Lihat Undangan
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container my-5">
+        <div class="row">
+            <!-- Form Generator -->
+            <div class="col-lg-5 mb-4">
+                <div class="card shadow-sm border-0 rounded-4">
+                    <div class="card-header bg-primary text-white text-center rounded-top-4">
+                        <h4 class="font-esthetic mb-0" style="font-size: 1.5rem;">
+                            <i class="fa-solid fa-plus-circle me-2"></i>Tambah Tamu Baru
+                        </h4>
+                    </div>
+                    <div class="card-body p-4">
+                        <form id="guestForm">
+                            <div class="mb-3">
+                                <label for="guestName" class="form-label fw-bold">
+                                    <i class="fa-solid fa-user me-2"></i>Nama Tamu
+                                </label>
+                                <input type="text" class="form-control rounded-3" id="guestName" 
+                                       placeholder="Contoh: Bapak Fulan / Ibu Fulanah" required>
+                                <div class="form-text">Nama akan otomatis di-format untuk URL</div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="guestType" class="form-label fw-bold">
+                                    <i class="fa-solid fa-tag me-2"></i>Jenis Tamu
+                                </label>
+                                <select class="form-select rounded-3" id="guestType">
+                                    <option value="Bapak">Bapak</option>
+                                    <option value="Ibu">Ibu</option>
+                                    <option value="Saudara">Saudara</option>
+                                    <option value="Saudari">Saudari</option>
+                                    <option value="Keluarga">Keluarga</option>
+                                    <option value="Bapak/Ibu">Bapak/Ibu</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="guestCategory" class="form-label fw-bold">
+                                    <i class="fa-solid fa-users me-2"></i>Kategori
+                                </label>
+                                <select class="form-select rounded-3" id="guestCategory">
+                                    <option value="Keluarga">Keluarga</option>
+                                    <option value="Teman">Teman</option>
+                                    <option value="Tetangga">Tetangga</option>
+                                    <option value="Rekan Kerja">Rekan Kerja</option>
+                                    <option value="Lainnya">Lainnya</option>
+                                </select>
+                            </div>
+
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary btn-lg rounded-3">
+                                    <i class="fa-solid fa-magic me-2"></i>Generate Undangan
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Stats Card -->
+                <div class="card shadow-sm border-0 rounded-4 mt-4 stats-card">
+                    <div class="card-body text-center p-3">
+                        <h5 class="font-esthetic generated-count mb-1" style="font-size: 2rem;" id="totalGuests">0</h5>
+                        <small class="text-muted">Tamu Telah Diundang</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Guest List -->
+            <div class="col-lg-7">
+                <div class="card shadow-sm border-0 rounded-4">
+                    <div class="card-header bg-success text-white rounded-top-4">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h4 class="font-esthetic mb-0" style="font-size: 1.5rem;">
+                                <i class="fa-solid fa-list me-2"></i>Daftar Tamu
+                            </h4>
+                            <div>
+                                <button class="btn btn-light btn-sm me-2" onclick="exportGuestList()">
+                                    <i class="fa-solid fa-download me-1"></i>Export
+                                </button>
+                                <button class="btn btn-outline-light btn-sm" onclick="clearAllGuests()">
+                                    <i class="fa-solid fa-trash me-1"></i>Hapus Semua
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body p-0" style="max-height: 600px; overflow-y: auto;">
+                        <div id="guestList" class="p-3">
+                            <div class="text-center text-muted py-5">
+                                <i class="fa-solid fa-users fa-3x mb-3 opacity-50"></i>
+                                <p class="mb-0">Belum ada tamu yang di-generate</p>
+                                <small>Tambahkan tamu pertama menggunakan form di samping</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal fade" id="successModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-4 border-0">
+                <div class="modal-header bg-success text-white rounded-top-4">
+                    <h5 class="modal-title font-esthetic">
+                        <i class="fa-solid fa-check-circle me-2"></i>Undangan Berhasil Di-Generate!
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <div class="text-center mb-3">
+                        <i class="fa-solid fa-envelope fa-3x text-success mb-3"></i>
+                        <h6 id="modalGuestName" class="fw-bold"></h6>
+                        <p class="text-muted mb-3">Undangan personal telah berhasil dibuat</p>
+                    </div>
+                    
+                    <div class="border rounded-3 p-3 bg-light">
+                        <label class="form-label fw-bold">Link Undangan:</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="modalGuestLink" readonly>
+                            <button class="btn btn-outline-primary" onclick="copyModalLink()">
+                                <i class="fa-solid fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-primary" onclick="openGuestLink()">
+                        <i class="fa-solid fa-external-link-alt me-1"></i>Buka Undangan
+                    </button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+                        <i class="fa-solid fa-check me-1"></i>Selesai
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white-black py-4 mt-5">
+        <div class="container text-center">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <small class="text-muted">Build with <i class="fa-solid fa-heart text-danger"></i> untuk Khitanan Ahmad</small>
+                </div>
+                <div class="col-md-6">
+                    <small class="text-muted">
+                        <i class="fa-brands fa-github me-1"></i><a href="https://github.com/dewanakl/undangan" target="_blank" class="text-decoration-none">dewanakl</a>
+                    </small>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Guest data storage
+        let guests = [];
+        let currentGuestLink = '';
+        const API_BASE = 'http://localhost:3001';
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            loadGuestList();
+        });
+
+        // Form submission
+        document.getElementById('guestForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('guestName').value.trim();
+            const type = document.getElementById('guestType').value;
+            const category = document.getElementById('guestCategory').value;
+            
+            if (!name) {
+                alert('Nama tamu tidak boleh kosong!');
+                return;
+            }
+
+            generateGuest(name, type, category);
+        });
+
+        async function generateGuest(name, type, category) {
+            try {
+                // Show loading
+                const submitBtn = document.querySelector('button[type="submit"]');
+                const originalText = submitBtn.innerHTML;
+                submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-2"></i>Generating...';
+                submitBtn.disabled = true;
+
+                const response = await fetch(`${API_BASE}/api/guests`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        name: name,
+                        type: type,
+                        category: category
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    // Update UI
+                    await loadGuestList();
+                    
+                    // Show success modal
+                    showSuccessModal(result.data);
+                    
+                    // Reset form
+                    document.getElementById('guestForm').reset();
+                    
+                    showToast('Undangan berhasil di-generate!', 'success');
+                } else {
+                    throw new Error(result.error || 'Failed to generate guest');
+                }
+
+            } catch (error) {
+                console.error('Error generating guest:', error);
+                showToast(error.message || 'Gagal membuat undangan. Silakan coba lagi.', 'warning');
+            } finally {
+                // Reset button
+                const submitBtn = document.querySelector('button[type="submit"]');
+                submitBtn.innerHTML = '<i class="fa-solid fa-magic me-2"></i>Generate Undangan';
+                submitBtn.disabled = false;
+            }
+        }
+
+        async function loadGuestList() {
+            try {
+                const response = await fetch(`${API_BASE}/api/guests`);
+                const result = await response.json();
+
+                if (result.success) {
+                    guests = result.data;
+                    updateGuestList();
+                    updateTotalGuests();
+                } else {
+                    console.error('Failed to load guests:', result.error);
+                    showToast('Gagal memuat daftar tamu', 'warning');
+                }
+            } catch (error) {
+                console.error('Error loading guests:', error);
+                showToast('Gagal memuat daftar tamu', 'warning');
+            }
+        }
+
+        function updateGuestList() {
+            const listContainer = document.getElementById('guestList');
+            
+            if (guests.length === 0) {
+                listContainer.innerHTML = `
+                    <div class="text-center text-muted py-5">
+                        <i class="fa-solid fa-users fa-3x mb-3 opacity-50"></i>
+                        <p class="mb-0">Belum ada tamu yang di-generate</p>
+                        <small>Tambahkan tamu pertama menggunakan form di samping</small>
+                    </div>
+                `;
+                return;
+            }
+
+            const guestsByCategory = guests.reduce((acc, guest) => {
+                if (!acc[guest.category]) acc[guest.category] = [];
+                acc[guest.category].push(guest);
+                return acc;
+            }, {});
+
+            let html = '';
+            
+            Object.keys(guestsByCategory).forEach(category => {
+                html += `
+                    <div class="mb-4">
+                        <h6 class="fw-bold text-primary mb-3">
+                            <i class="fa-solid fa-folder me-2"></i>${category} (${guestsByCategory[category].length})
+                        </h6>
+                `;
+                
+                guestsByCategory[category].forEach(guest => {
+                    html += createGuestItem(guest);
+                });
+                
+                html += '</div>';
+            });
+
+            listContainer.innerHTML = html;
+        }
+
+        function createGuestItem(guest) {
+            const date = new Date(guest.created_at || guest.timestamp).toLocaleDateString('id-ID', {
+                day: 'numeric',
+                month: 'short',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+
+            const link = guest.invitation_link || guest.link;
+            const fullName = guest.full_name || guest.fullName;
+            const views = guest.views || 0;
+            const commentCount = guest.comment_count || 0;
+
+            return `
+                <div class="guest-item border rounded-3 p-3 mb-2 bg-white">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="fa-solid fa-user-circle fa-lg text-primary me-2"></i>
+                                <div>
+                                    <h6 class="mb-0 fw-bold">${fullName}</h6>
+                                    <small class="text-muted">
+                                        <i class="fa-solid fa-clock me-1"></i>${date}
+                                        <span class="ms-2"><i class="fa-solid fa-eye me-1"></i>${views} views</span>
+                                        <span class="ms-2"><i class="fa-solid fa-comments me-1"></i>${commentCount} comments</span>
+                                    </small>
+                                </div>
+                            </div>
+                            <div class="mt-2">
+                                <code class="small text-muted">${link}</code>
+                            </div>
+                        </div>
+                        <div class="col-md-4 text-end">
+                            <div class="btn-group" role="group">
+                                <button class="btn btn-outline-primary btn-sm copy-btn" 
+                                        onclick="copyGuestLink('${link}')" 
+                                        title="Copy Link">
+                                    <i class="fa-solid fa-copy"></i>
+                                </button>
+                                <button class="btn btn-outline-success btn-sm" 
+                                        onclick="openGuestInvitation('${link}')" 
+                                        title="Buka Undangan">
+                                    <i class="fa-solid fa-external-link-alt"></i>
+                                </button>
+                                <button class="btn btn-outline-danger btn-sm" 
+                                        onclick="deleteGuest(${guest.id})" 
+                                        title="Hapus">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function updateTotalGuests() {
+            document.getElementById('totalGuests').textContent = guests.length;
+        }
+
+        function showSuccessModal(guest) {
+            const fullName = guest.full_name || guest.fullName;
+            const link = guest.invitation_link || guest.link;
+            
+            document.getElementById('modalGuestName').textContent = fullName;
+            document.getElementById('modalGuestLink').value = window.location.origin + '/' + link;
+            currentGuestLink = link;
+            
+            const modal = new bootstrap.Modal(document.getElementById('successModal'));
+            modal.show();
+        }
+
+        async function deleteGuest(guestId) {
+            if (!confirm('Yakin ingin menghapus tamu ini?')) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/api/guests/${guestId}`, {
+                    method: 'DELETE'
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    await loadGuestList();
+                    showToast('Tamu berhasil dihapus!', 'warning');
+                } else {
+                    throw new Error(result.error || 'Failed to delete guest');
+                }
+            } catch (error) {
+                console.error('Error deleting guest:', error);
+                showToast('Gagal menghapus tamu', 'warning');
+            }
+        }
+
+        async function clearAllGuests() {
+            if (!confirm('Yakin ingin menghapus semua data tamu? Tindakan ini tidak dapat dibatalkan!')) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/api/guests`, {
+                    method: 'DELETE'
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    await loadGuestList();
+                    showToast(`${result.data.deleted_count} tamu berhasil dihapus!`, 'warning');
+                } else {
+                    throw new Error(result.error || 'Failed to delete all guests');
+                }
+            } catch (error) {
+                console.error('Error deleting all guests:', error);
+                showToast('Gagal menghapus semua tamu', 'warning');
+            }
+        }
+
+        async function exportGuestList() {
+            if (guests.length === 0) {
+                alert('Tidak ada data tamu untuk di-export!');
+                return;
+            }
+
+            const csvContent = "data:text/csv;charset=utf-8," 
+                + "No,Nama Lengkap,Nama,Jenis,Kategori,Link,Views,Comments,Tanggal Dibuat\n"
+                + guests.map((guest, index) => {
+                    const fullName = guest.full_name || guest.fullName;
+                    const link = guest.invitation_link || guest.link;
+                    const views = guest.views || 0;
+                    const comments = guest.comment_count || 0;
+                    const created = guest.created_at || guest.timestamp;
+                    
+                    return `${index + 1},"${fullName}","${guest.name}","${guest.type}","${guest.category}","${window.location.origin}/${link}","${views}","${comments}","${new Date(created).toLocaleString('id-ID')}"`;
+                }).join("\n");
+
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", `daftar-tamu-khitanan-${new Date().toISOString().split('T')[0]}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            showToast('Data tamu berhasil di-export!', 'success');
+        }
+
+        function copyGuestLink(link) {
+            const fullLink = window.location.origin + '/' + link;
+            navigator.clipboard.writeText(fullLink).then(() => {
+                showToast('Link berhasil disalin!', 'success');
+            }).catch(() => {
+                // Fallback untuk browser lama
+                const textArea = document.createElement('textarea');
+                textArea.value = fullLink;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                showToast('Link berhasil disalin!', 'success');
+            });
+        }
+
+        function copyModalLink() {
+            const linkInput = document.getElementById('modalGuestLink');
+            linkInput.select();
+            navigator.clipboard.writeText(linkInput.value).then(() => {
+                showToast('Link berhasil disalin!', 'success');
+            });
+        }
+
+        function openGuestInvitation(link) {
+            window.open(link, '_blank');
+        }
+
+        function openGuestLink() {
+            if (currentGuestLink) {
+                window.open(currentGuestLink, '_blank');
+            }
+        }
+
+        function slugify(text) {
+            return text
+                .toLowerCase()
+                .replace(/[^a-z0-9 -]/g, '')
+                .replace(/\s+/g, '-')
+                .replace(/-+/g, '-')
+                .trim('-');
+        }
+
+        function showToast(message, type = 'info') {
+            // Create toast element
+            const toastHtml = `
+                <div class="toast align-items-center text-white bg-${type === 'success' ? 'success' : type === 'warning' ? 'warning' : 'primary'} border-0" role="alert">
+                    <div class="d-flex">
+                        <div class="toast-body">
+                            <i class="fa-solid fa-${type === 'success' ? 'check-circle' : type === 'warning' ? 'exclamation-triangle' : 'info-circle'} me-2"></i>
+                            ${message}
+                        </div>
+                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+                    </div>
+                </div>
+            `;
+            
+            // Create toast container if it doesn't exist
+            let toastContainer = document.getElementById('toastContainer');
+            if (!toastContainer) {
+                toastContainer = document.createElement('div');
+                toastContainer.id = 'toastContainer';
+                toastContainer.className = 'toast-container position-fixed bottom-0 end-0 p-3';
+                toastContainer.style.zIndex = '1055';
+                document.body.appendChild(toastContainer);
+            }
+            
+            // Add toast
+            const toastElement = document.createElement('div');
+            toastElement.innerHTML = toastHtml;
+            toastContainer.appendChild(toastElement.firstElementChild);
+            
+            // Initialize and show toast
+            const toast = new bootstrap.Toast(toastContainer.lastElementChild);
+            toast.show();
+            
+            // Remove toast element after it's hidden
+            toastContainer.lastElementChild.addEventListener('hidden.bs.toast', function() {
+                this.remove();
+            });
+        }
+
+        // Search functionality (bonus feature)
+        function searchGuests(query) {
+            const filteredGuests = guests.filter(guest => 
+                guest.name.toLowerCase().includes(query.toLowerCase()) ||
+                guest.category.toLowerCase().includes(query.toLowerCase()) ||
+                guest.type.toLowerCase().includes(query.toLowerCase())
+            );
+            
+            // Update display with filtered results
+            // Implementation can be added here
+        }
+    </script>
+</body>
+
+</html>

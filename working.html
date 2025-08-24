@@ -1,0 +1,530 @@
+<!doctype html>
+<html lang="id" data-bs-theme="auto">
+
+<head>
+    <!-- Common Tag -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Undangan Khitanan Ahmad</title>
+
+    <!-- Dependencies CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/css/all.min.css">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Sacramento&display=swap');
+        
+        body {
+            font-family: 'Josefin Sans', sans-serif;
+            background: linear-gradient(135deg, #000000 0%, #000000 100%);
+            min-height: 100vh;
+        }
+        
+        .font-esthetic {
+            font-family: 'Sacramento', cursive;
+        }
+        
+        .card {
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .invitation-header {
+            background: linear-gradient(45deg, #ff6b6b, #ffa726);
+            color: white;
+            padding: 2rem;
+            border-radius: 20px 20px 0 0;
+            text-align: center;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-left: 4px solid #007bff;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(45deg, #000000, #000000);
+            border: none;
+            border-radius: 25px;
+            padding: 10px 25px;
+        }
+        
+        .form-control, .form-select {
+            border-radius: 15px;
+            border: 2px solid #e9ecef;
+            padding: 12px 15px;
+        }
+        
+        .floating-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .stats-row {
+            background: linear-gradient(45deg, #28a745, #20c997);
+            color: white;
+            border-radius: 15px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .personal-greeting {
+            background: linear-gradient(45deg, #000000, #000000);
+            color: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container py-4">
+        <!-- Personal Greeting -->
+        <div id="personal-greeting" class="personal-greeting" style="display: none;">
+            <h3 id="greeting-text"></h3>
+        </div>
+
+        <!-- Main Card -->
+        <div class="card">
+            <div class="invitation-header">
+                <h1 class="font-esthetic display-4 mb-0">🎉 Undangan Khitanan</h1>
+                <h2 class="font-esthetic h3 mt-2">Ahmad bin Bapak Fulan</h2>
+                <p class="mb-0">Minggu, 14 September 2025 • 08:00 WIB</p>
+            </div>
+            
+            <div class="card-body p-4">
+                <!-- Event Details -->
+                <div class="row mb-4">
+                    <div class="col-md-6 mb-3">
+                        <div class="text-center">
+                            <i class="fa-solid fa-calendar-days fa-2x text-primary mb-2"></i>
+                            <h5>Tanggal & Waktu</h5>
+                            <p>Minggu, 14 September 2025<br>Pukul 08:00 WIB - Selesai</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="text-center">
+                            <i class="fa-solid fa-map-location-dot fa-2x text-primary mb-2"></i>
+                            <h5>Lokasi</h5>
+                            <p>RT 10 RW 02, Desa Pajerukan<br>Kec. Kalibagor, Kab. Banyumas</p>
+                            <a href="https://goo.gl/maps/ALZR6FJZU3kxVwN86" target="_blank" class="btn btn-primary btn-sm">
+                                <i class="fa-solid fa-directions me-1"></i>Petunjuk Arah
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Comment Form -->
+                <div class="card bg-light">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0"><i class="fa-solid fa-comments me-2"></i>Ucapan & Doa</h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="commentForm">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="name" class="form-label">Nama</label>
+                                    <input type="text" class="form-control" id="name" placeholder="Nama Anda" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="presence" class="form-label">Kehadiran</label>
+                                    <select class="form-select" id="presence" required>
+                                        <option value="">Pilih Kehadiran</option>
+                                        <option value="1">✅ Hadir</option>
+                                        <option value="0">❌ Berhalangan</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="comment" class="form-label">Ucapan & Doa</label>
+                                <textarea class="form-control" id="comment" rows="4" placeholder="Tulis ucapan dan doa untuk Ahmad..." required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fa-solid fa-paper-plane me-2"></i>Kirim Ucapan
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Comments List -->
+                <div class="mt-4">
+                    <h5><i class="fa-solid fa-heart me-2 text-danger"></i>Ucapan dari Tamu</h5>
+                    <div id="loadingComments" class="loading">
+                        <div class="spinner"></div>
+                        <p>Memuat ucapan...</p>
+                    </div>
+                    <div id="commentsList"></div>
+                    <div class="text-center mt-3">
+                        <button id="loadMoreBtn" class="btn btn-outline-primary" style="display: none;">
+                            Muat Lebih Banyak
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Gift Section -->
+                <div class="card bg-warning bg-opacity-10 mt-4">
+                    <div class="card-header bg-warning text-dark">
+                        <h5 class="mb-0"><i class="fa-solid fa-gift me-2"></i>Amplop Digital</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <h6><i class="fa-solid fa-university me-2"></i>Transfer Bank</h6>
+                                <p class="mb-1"><strong>Bank Central Asia</strong></p>
+                                <p class="mb-1">No. Rekening: <strong>1234567891234</strong></p>
+                                <p class="mb-0">A.n: <strong>Riski Siapa?</strong></p>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <h6><i class="fa-solid fa-phone me-2"></i>Kontak</h6>
+                                <p class="mb-0">WhatsApp: <strong>0812345678</strong></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Action Button -->
+    <div class="floating-btn">
+        <div class="btn-group-vertical">
+            <a href="generate.html" class="btn btn-success mb-2" title="Generator Tamu">
+                <i class="fa-solid fa-users"></i>
+            </a>
+            <button id="refreshBtn" class="btn btn-info" title="Refresh">
+                <i class="fa-solid fa-refresh"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Configuration
+        const API_BASE = 'http://localhost:3001';
+        let currentPage = 1;
+        let comments = [];
+        let isLoading = false;
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            initPersonalGreeting();
+            loadComments();
+            initEventListeners();
+        });
+
+        // Personal greeting from URL parameter
+        function initPersonalGreeting() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const to = urlParams.get('to');
+            
+            if (to) {
+                const greetingEl = document.getElementById('personal-greeting');
+                const textEl = document.getElementById('greeting-text');
+                textEl.innerHTML = `Kepada Yth. <strong>${decodeURIComponent(to)}</strong>`;
+                greetingEl.style.display = 'block';
+            }
+        }
+
+        // Initialize event listeners
+        function initEventListeners() {
+            // Comment form submission
+            document.getElementById('commentForm').addEventListener('submit', submitComment);
+            
+            // Refresh button
+            document.getElementById('refreshBtn').addEventListener('click', function() {
+                currentPage = 1;
+                comments = [];
+                loadComments();
+            });
+
+            // Load more button
+            document.getElementById('loadMoreBtn').addEventListener('click', function() {
+                currentPage++;
+                loadComments();
+            });
+        }
+
+        // Load comments from API
+        async function loadComments() {
+            if (isLoading) return;
+            
+            isLoading = true;
+            const loadingEl = document.getElementById('loadingComments');
+            const loadMoreBtn = document.getElementById('loadMoreBtn');
+            
+            if (currentPage === 1) {
+                loadingEl.style.display = 'block';
+            }
+            
+            try {
+                const response = await fetch(`${API_BASE}/api/comments?page=${currentPage}&per_page=10`);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    if (currentPage === 1) {
+                        comments = result.data.data || [];
+                    } else {
+                        comments = [...comments, ...(result.data.data || [])];
+                    }
+                    
+                    renderComments();
+                    
+                    // Handle pagination
+                    const hasMore = result.data.pagination?.has_more;
+                    loadMoreBtn.style.display = hasMore ? 'block' : 'none';
+                } else {
+                    throw new Error(result.error || 'Failed to load comments');
+                }
+                
+            } catch (error) {
+                console.error('Error loading comments:', error);
+                showAlert('Gagal memuat ucapan: ' + error.message, 'warning');
+                
+                // Show offline message
+                if (currentPage === 1) {
+                    document.getElementById('commentsList').innerHTML = `
+                        <div class="text-center text-muted p-4">
+                            <i class="fa-solid fa-wifi-slash fa-2x mb-2"></i>
+                            <p>Tidak dapat memuat ucapan. Periksa koneksi internet atau server.</p>
+                            <button onclick="loadComments()" class="btn btn-outline-primary btn-sm">
+                                <i class="fa-solid fa-refresh me-1"></i>Coba Lagi
+                            </button>
+                        </div>
+                    `;
+                }
+            } finally {
+                isLoading = false;
+                loadingEl.style.display = 'none';
+            }
+        }
+
+        // Render comments to HTML
+        function renderComments() {
+            const listEl = document.getElementById('commentsList');
+            
+            if (comments.length === 0) {
+                listEl.innerHTML = `
+                    <div class="text-center text-muted p-4">
+                        <i class="fa-solid fa-comment-slash fa-2x mb-2"></i>
+                        <p>Belum ada ucapan. Jadilah yang pertama memberikan ucapan!</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            listEl.innerHTML = comments.map(comment => {
+                const date = new Date(comment.created_at).toLocaleDateString('id-ID', {
+                    day: 'numeric',
+                    month: 'long',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+                
+                const presence = comment.presence ? 
+                    '<span class="badge bg-success">✅ Hadir</span>' : 
+                    '<span class="badge bg-secondary">❌ Berhalangan</span>';
+                
+                return `
+                    <div class="comment-item">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <div>
+                                <h6 class="mb-1">${comment.name}</h6>
+                                ${presence}
+                            </div>
+                            <small class="text-muted">${date}</small>
+                        </div>
+                        <p class="mb-2">${comment.comment}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <button class="btn btn-sm btn-outline-danger" onclick="likeComment('${comment.uuid}', this)">
+                                <i class="fa-solid fa-heart me-1"></i>${comment.like_count || 0}
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Submit new comment
+        async function submitComment(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('name').value.trim();
+            const presence = document.getElementById('presence').value;
+            const comment = document.getElementById('comment').value.trim();
+            
+            if (!name || !presence || !comment) {
+                showAlert('Harap isi semua field!', 'warning');
+                return;
+            }
+            
+            const submitBtn = event.target.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-2"></i>Mengirim...';
+            submitBtn.disabled = true;
+            
+            try {
+                const response = await fetch(`${API_BASE}/api/comments`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: name,
+                        presence: parseInt(presence),
+                        comment: comment
+                    })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showAlert('Ucapan berhasil dikirim! Terima kasih 🙏', 'success');
+                    
+                    // Reset form
+                    document.getElementById('commentForm').reset();
+                    
+                    // Reload comments
+                    currentPage = 1;
+                    comments = [];
+                    await loadComments();
+                } else {
+                    throw new Error(result.error || 'Failed to submit comment');
+                }
+                
+            } catch (error) {
+                console.error('Error submitting comment:', error);
+                showAlert('Gagal mengirim ucapan: ' + error.message, 'danger');
+            } finally {
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }
+        }
+
+        // Like a comment
+        async function likeComment(uuid, buttonEl) {
+            if (buttonEl.disabled) return;
+            
+            buttonEl.disabled = true;
+            const originalText = buttonEl.innerHTML;
+            buttonEl.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-1"></i>...';
+            
+            try {
+                const response = await fetch(`${API_BASE}/api/comments/${uuid}/like`, {
+                    method: 'PUT'
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    const currentCount = parseInt(buttonEl.textContent.trim().split(' ').pop()) || 0;
+                    buttonEl.innerHTML = `<i class="fa-solid fa-heart me-1"></i>${currentCount + 1}`;
+                    buttonEl.classList.remove('btn-outline-danger');
+                    buttonEl.classList.add('btn-danger');
+                    
+                    showAlert('Terima kasih sudah menyukai ucapan ini! ❤️', 'success');
+                } else {
+                    throw new Error(result.error || 'Failed to like comment');
+                }
+                
+            } catch (error) {
+                console.error('Error liking comment:', error);
+                showAlert('Gagal menyukai ucapan', 'warning');
+                buttonEl.innerHTML = originalText;
+                buttonEl.disabled = false;
+            }
+        }
+
+        // Show alert notification
+        function showAlert(message, type = 'info') {
+            // Remove existing alerts
+            const existingAlerts = document.querySelectorAll('.alert');
+            existingAlerts.forEach(alert => alert.remove());
+            
+            const alertEl = document.createElement('div');
+            alertEl.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
+            alertEl.style.cssText = 'top: 20px; right: 20px; z-index: 1050; max-width: 350px;';
+            alertEl.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            
+            document.body.appendChild(alertEl);
+            
+            // Auto dismiss after 5 seconds
+            setTimeout(() => {
+                if (alertEl.parentNode) {
+                    alertEl.remove();
+                }
+            }, 5000);
+        }
+
+        // Handle offline/online status
+        function updateConnectionStatus() {
+            if (!navigator.onLine) {
+                showAlert('Anda sedang offline. Beberapa fitur mungkin tidak tersedia.', 'warning');
+            }
+        }
+
+        window.addEventListener('offline', () => {
+            showAlert('Koneksi terputus. Mode offline aktif.', 'warning');
+        });
+
+        window.addEventListener('online', () => {
+            showAlert('Koneksi kembali normal!', 'success');
+            // Reload comments when back online
+            currentPage = 1;
+            comments = [];
+            loadComments();
+        });
+
+        // Initial connection check
+        updateConnectionStatus();
+    </script>
+</body>
+
+</html>

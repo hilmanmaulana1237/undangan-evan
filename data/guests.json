@@ -1,0 +1,66 @@
+{
+  "guests": [
+    {
+      "id": 1,
+      "name": "awdwadawd",
+      "type": "Bapak",
+      "category": "Keluarga",
+      "full_name": "Bapak awdwadawd",
+      "slug": "awdwadawd",
+      "invitation_link": "index.html?to=Bapak%20awdwadawd",
+      "views": 0,
+      "comment_count": 0,
+      "created_at": "2025-08-24T05:57:58.392Z"
+    },
+    {
+      "id": 2,
+      "name": "wadwaddwa",
+      "type": "Saudara",
+      "category": "Keluarga",
+      "full_name": "Saudara wadwaddwa",
+      "slug": "wadwaddwa",
+      "invitation_link": "index.html?to=Saudara%20wadwaddwa",
+      "views": 0,
+      "comment_count": 0,
+      "created_at": "2025-08-24T06:52:08.016Z"
+    },
+    {
+      "id": 3,
+      "name": "Yuyun Yuningsih",
+      "type": "Ibu",
+      "category": "Keluarga",
+      "full_name": "Ibu Yuyun Yuningsih",
+      "slug": "yuyun-yuningsih",
+      "invitation_link": "index.html?to=Ibu%20Yuyun%20Yuningsih",
+      "views": 0,
+      "comment_count": 0,
+      "created_at": "2025-08-24T06:54:32.322Z"
+    },
+    {
+      "id": 4,
+      "name": "dawwadwad",
+      "type": "Saudara",
+      "category": "Keluarga",
+      "full_name": "Saudara dawwadwad",
+      "slug": "dawwadwad",
+      "invitation_link": "index.html?to=Saudara%20dawwadwad",
+      "views": 0,
+      "comment_count": 0,
+      "created_at": "2025-08-24T07:01:21.376Z"
+    },
+    {
+      "id": 5,
+      "name": "Hadi",
+      "type": "Bapak",
+      "category": "Keluarga",
+      "full_name": "Bapak Hadi",
+      "slug": "hadi",
+      "invitation_link": "index.html?to=Bapak%20Hadi",
+      "views": 0,
+      "comment_count": 0,
+      "created_at": "2025-08-24T07:18:49.318Z"
+    }
+  ],
+  "total": 5,
+  "lastId": 5
+}

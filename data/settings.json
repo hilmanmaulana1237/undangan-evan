@@ -1,0 +1,23 @@
+{
+  "event": {
+    "title": "Khitanan Surevan",
+    "childName": "Evan",
+    "fatherName": "Bapak Muhammad Yusuf",
+    "motherName": "Ibu Intan Purnamasari",
+    "date": "2025-09-14",
+    "time": "08:00:00",
+    "location": "RT 10 RW 02, Desa Pajerukan, Kec. Kalibagor, Kab. Banyumas, Jawa Tengah 53191",
+    "mapUrl": "https://goo.gl/maps/ALZR6FJZU3kxVwN86"
+  },
+  "contact": {
+    "phone": "0812345678",
+    "bankName": "Bank Central Asia",
+    "bankAccount": "1234567891234",
+    "bankHolder": "Muhammad Yusuf"
+  },
+  "stats": {
+    "totalViews": 0,
+    "totalComments": 0,
+    "totalGuests": 0
+  }
+}
